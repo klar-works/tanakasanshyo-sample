@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header class="global-header" style="background-color: var(--color-text-main); top: 0;">
+<body class="page-under">
+    <header class="global-header solid-header">
         <div class="logo">TANAKA SANSHO</div>
         <nav class="global-nav">
             <ul>
@@ -20,19 +20,22 @@
         </nav>
     </header>
 
-    <main style="padding-top: 120px;">
+    <main class="page-main">
         <section class="section-container bg-gray">
-            <div class="section-inner">
+            <div class="section-inner content-padding-left">
                 <div class="section-title-vertical js-fade">
-                    <h2>製<br>品<br>情<br>報</h2>
+                    <h2>製品情報</h2>
                     <span class="en-title">Products</span>
                 </div>
 
-                <div class="product-list js-fade delay-1">
+                <div class="product-list-rich js-fade delay-1">
                     <!-- 製品01 -->
-                    <div class="product-row">
-                        <div class="product-num">01</div>
-                        <div class="product-info">
+                    <div class="product-item">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1590496793907-471d87120286?auto=format&fit=crop&q=80&w=800" alt="アンテナ・パイプ加工">
+                        </div>
+                        <div class="product-body">
+                            <div class="product-num">01</div>
                             <h4 class="product-name">各種アンテナ・ポール・打診棒</h4>
                             <p class="product-desc">
                                 パイプ材料から加工製作まで一貫して対応いたします。<br>
@@ -43,9 +46,12 @@
                     </div>
                     
                     <!-- 製品02 -->
-                    <div class="product-row">
-                        <div class="product-num">02</div>
-                        <div class="product-info">
+                    <div class="product-item">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1565439387994-3532c54eeac8?auto=format&fit=crop&q=80&w=800" alt="金属精密加工">
+                        </div>
+                        <div class="product-body">
+                            <div class="product-num">02</div>
                             <h4 class="product-name">各種金属精密加工</h4>
                             <p class="product-desc">
                                 小さいものからΦ100くらいまでのステンレス、アルミ、真鍮、チタンを材料とした加工製作を承ります。<br>
@@ -55,9 +61,12 @@
                     </div>
 
                     <!-- 製品03 -->
-                    <div class="product-row">
-                        <div class="product-num">03</div>
-                        <div class="product-info">
+                    <div class="product-item">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=800" alt="美容機器用ヘッド">
+                        </div>
+                        <div class="product-body">
+                            <div class="product-num">03</div>
                             <h4 class="product-name">超音波美容器用ヘッド</h4>
                             <p class="product-desc">
                                 ステンレス、アルミ、真鍮、チタン、各種樹脂に至るまで幅広い材質で製作加工いたします。さらに、各種材料への研磨、メッキ、コーティング処理も一括して承ることが可能です。
@@ -66,9 +75,12 @@
                     </div>
 
                     <!-- 製品04 -->
-                    <div class="product-row">
-                        <div class="product-num">04</div>
-                        <div class="product-info">
+                    <div class="product-item">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1517420879255-ae4657367e91?auto=format&fit=crop&q=80&w=800" alt="振動発電素子">
+                        </div>
+                        <div class="product-body">
+                            <div class="product-num">04</div>
                             <h4 class="product-name">振動発電素子</h4>
                             <p class="product-desc">
                                 超音波振動素子の取り扱いノウハウを活かし、振動を与えると発電する素子の販売を行っております。<br>
