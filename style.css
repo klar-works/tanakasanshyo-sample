@@ -1,23 +1,17 @@
 /* =========================================
    Reset & Variables
 ========================================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --color-bg: #FAFAFA;
     --color-bg-alt: #F0F2F5;
     --color-text-main: #222222;
     --color-text-light: #666666;
-    --color-accent: #0056b3; /* B2B向けの知的で落ち着いたブルー */
+    --color-accent: #004d80; /* やや深みのある洗練されたブルーに変更 */
     --color-white: #ffffff;
-    
     --font-sans: 'Noto Sans JP', sans-serif;
     --font-serif: 'Shippori Mincho', serif;
-    
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -29,158 +23,66 @@ body {
     overflow-x: hidden;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
 
 /* =========================================
-   News Ticker
+   Header & News Ticker
 ========================================= */
 .news-ticker {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--color-text-main);
-    color: var(--color-white);
-    font-size: 12px;
-    z-index: 1000;
-    padding: 8px 0;
-    display: flex;
-    justify-content: center;
+    position: fixed; top: 0; left: 0; width: 100%;
+    background-color: var(--color-text-main); color: var(--color-white);
+    font-size: 12px; z-index: 1000; padding: 8px 0;
+    display: flex; justify-content: center;
 }
+.news-content { display: flex; gap: 16px; letter-spacing: 0.05em; }
+.news-date { color: #aaa; }
 
-.news-content {
-    display: flex;
-    gap: 16px;
-    letter-spacing: 0.05em;
-}
-
-.news-date {
-    color: #999;
-}
-
-/* =========================================
-   Header
-========================================= */
 .global-header {
-    position: fixed;
-    top: 34px; /* News Tickerの高さ分下げる */
-    left: 0;
-    width: 100%;
-    padding: 24px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 999;
-    mix-blend-mode: difference; /* 背景色に応じて文字色が反転するモダンな手法 */
-    color: var(--color-white);
+    position: fixed; top: 34px; left: 0; width: 100%;
+    padding: 24px 48px; display: flex; justify-content: space-between;
+    align-items: center; z-index: 999; color: var(--color-white);
+    transition: background-color 0.3s ease;
+}
+/* 下層ページ用ヘッダー */
+.solid-header {
+    background-color: var(--color-text-main);
+    top: 34px;
 }
 
-.logo {
-    font-family: var(--font-serif);
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-}
-
-.global-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 32px;
-}
-
-.global-nav a {
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    position: relative;
-}
-
+.logo { font-family: var(--font-serif); font-size: 20px; font-weight: 700; letter-spacing: 0.1em; }
+.global-nav ul { list-style: none; display: flex; gap: 32px; }
+.global-nav a { font-size: 14px; font-weight: 500; letter-spacing: 0.1em; position: relative; }
 .global-nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background-color: var(--color-white);
-    transition: width 0.3s ease;
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background-color: currentColor; transition: width 0.3s ease;
 }
-
-.global-nav a:hover::after {
-    width: 100%;
-}
+.global-nav a:hover::after { width: 100%; }
 
 /* =========================================
    Hero Section
 ========================================= */
 .hero-section {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 10%;
-    overflow: hidden;
+    position: relative; height: 100vh; width: 100%;
+    display: flex; align-items: center; padding-left: 10%; overflow: hidden;
 }
-
 .hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2000');
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center; z-index: -2;
 }
-
 .hero-bg::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* 暗めのオーバーレイで文字を読ませる */
-    z-index: -1;
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); z-index: -1; /* 暗めのオーバーレイ */
 }
-
-.hero-content {
-    color: var(--color-white);
-    z-index: 1;
-}
-
-.hero-title {
-    font-family: var(--font-serif);
-    font-size: 5vw;
-    line-height: 1.2;
-    margin-bottom: 24px;
-    display: flex;
-    flex-direction: column;
-}
-
-.hero-subtitle {
-    font-size: 16px;
-    letter-spacing: 0.2em;
-    font-weight: 300;
-}
+.hero-content { color: var(--color-white); z-index: 1; }
+.hero-title { font-family: var(--font-serif); font-size: 4.5vw; line-height: 1.3; margin-bottom: 24px; display: flex; flex-direction: column; }
+.hero-subtitle { font-size: 16px; letter-spacing: 0.2em; font-weight: 300; }
 
 .scroll-indicator {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--color-white);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    writing-mode: vertical-rl;
-    animation: bounce 2s infinite;
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    color: var(--color-white); font-size: 12px; letter-spacing: 0.1em;
+    writing-mode: vertical-rl; animation: bounce 2s infinite;
 }
-
 @keyframes bounce {
     0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
     40% { transform: translateY(-10px) translateX(-50%); }
@@ -190,299 +92,155 @@ a {
 /* =========================================
    Section Common & Vertical Typo
 ========================================= */
-.section-container {
-    padding: 160px 0;
-    width: 100%;
-}
+.section-container { padding: 140px 0; width: 100%; }
+.bg-gray { background-color: var(--color-bg-alt); }
+.section-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; }
 
-.bg-gray {
-    background-color: var(--color-bg-alt);
-}
-
-.section-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
-    position: relative;
-}
-
+/* 縦書きの修正版（<br>をなくし、letter-spacingで調整） */
 .section-title-vertical {
-    position: absolute;
-    top: -40px;
-    left: 40px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
+    position: absolute; top: -40px; left: 40px;
+    writing-mode: vertical-rl; text-orientation: upright; /* 文字を正立させる */
 }
-
 .section-title-vertical h2 {
-    font-family: var(--font-serif);
-    font-size: 48px;
-    color: var(--color-text-main);
-    letter-spacing: 0.2em;
+    font-family: var(--font-serif); font-size: 40px; color: var(--color-text-main);
+    letter-spacing: 0.3em; /* 文字間隔を広げる */
+}
+.section-title-vertical .en-title {
+    font-family: var(--font-sans); font-size: 14px; color: var(--color-accent);
+    letter-spacing: 0.1em; margin-right: 16px; margin-top: 24px;
+    writing-mode: vertical-rl; text-orientation: mixed; /* 英語は横向きに */
 }
 
-.section-title-vertical .en-title {
-    font-family: var(--font-sans);
-    font-size: 14px;
-    color: var(--color-accent);
-    letter-spacing: 0.1em;
-    margin-right: 16px;
-    margin-top: 24px;
-}
+/* 縦書きタイトルとコンテンツが被らないようにするための余白 */
+.content-padding-left { padding-left: 160px; }
 
 /* =========================================
-   About Layout (Overlap)
+   About / Overlap Layout
 ========================================= */
 .layout-overlap .about-content {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
-    min-height: 600px;
-    padding-left: 100px; /* 縦書きタイトルのスペース */
+    display: flex; justify-content: flex-end; align-items: center;
+    position: relative; min-height: 600px; padding-left: 100px;
 }
-
-.about-image-wrapper {
-    width: 60%;
-    height: 500px;
-    position: absolute;
-    left: 120px;
-    top: 50px;
-    overflow: hidden;
-}
-
-.placeholder-image {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    transition: transform 1.5s var(--ease-out-expo);
-}
-
-.about-image-wrapper:hover .placeholder-image {
-    transform: scale(1.05);
-}
-
+.about-image-wrapper { width: 60%; height: 500px; position: absolute; left: 80px; top: 50px; overflow: hidden; }
+.placeholder-image { width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 1.5s var(--ease-out-expo); }
+.about-image-wrapper:hover .placeholder-image { transform: scale(1.05); }
 .about-text-box {
-    width: 50%;
-    background: var(--color-white);
-    padding: 64px;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    width: 55%; background: var(--color-white); padding: 64px;
+    position: relative; z-index: 2; box-shadow: 0 20px 40px rgba(0,0,0,0.03);
 }
+.about-text-box h3 { font-family: var(--font-serif); font-size: 28px; line-height: 1.5; margin-bottom: 32px; }
 
-.about-text-box h3 {
-    font-family: var(--font-serif);
-    font-size: 28px;
-    line-height: 1.5;
-    margin-bottom: 32px;
-}
+/* 組織概要ページのメッセージ */
+.company-philosophy { margin-bottom: 80px; }
+.philosophy-title { font-family: var(--font-serif); font-size: 32px; line-height: 1.5; margin-bottom: 24px; color: var(--color-accent); }
+.philosophy-text { font-size: 16px; color: var(--color-text-main); }
 
-.about-text-box p {
-    color: var(--color-text-light);
-    font-size: 15px;
-}
+/* 会社概要テーブル */
+.company-profile { width: 100%; max-width: 900px; }
+.profile-row { display: flex; border-bottom: 1px solid #ddd; padding: 24px 0; }
+.profile-row:first-child { border-top: 1px solid #ddd; }
+.profile-dt { width: 25%; font-weight: 500; color: var(--color-accent); font-family: var(--font-serif); font-size: 18px; }
+.profile-dd { width: 75%; color: var(--color-text-main); }
 
 /* =========================================
-   Products (List, No Cards)
+   Z-Layout (トップページ強み)
 ========================================= */
-.product-list {
-    margin-top: 64px;
-    padding-left: 120px;
-}
-
-.product-row {
-    display: flex;
-    align-items: flex-start;
-    padding: 40px 0;
-    border-bottom: 1px solid #ddd;
-    transition: all 0.4s ease;
-    group: hover;
-}
-
-.product-row:first-child {
-    border-top: 1px solid #ddd;
-}
-
-.product-row:hover {
-    padding-left: 24px;
-    background-color: rgba(255,255,255,0.4);
-}
-
-.product-num {
-    font-family: var(--font-serif);
-    font-size: 24px;
-    color: var(--color-accent);
-    width: 80px;
-    font-weight: 700;
-}
-
-.product-info {
-    flex: 1;
-    padding-right: 40px;
-}
-
-.product-name {
-    font-size: 22px;
-    font-family: var(--font-serif);
-    margin-bottom: 16px;
-    color: var(--color-text-main);
-}
-
-.product-desc {
-    font-size: 15px;
-    color: var(--color-text-light);
-}
-
-.product-arrow {
-    font-size: 24px;
-    color: #ccc;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.product-row:hover .product-arrow {
-    color: var(--color-accent);
-    transform: translateX(10px);
-}
+.z-layout-wrapper { display: flex; flex-direction: column; gap: 100px; margin-top: 40px; }
+.z-row { display: flex; align-items: center; gap: 60px; }
+.z-row.reverse { flex-direction: row-reverse; }
+.z-img { flex: 1; overflow: hidden; }
+.z-img img { width: 100%; height: 400px; object-fit: cover; transition: transform 1s ease; }
+.z-row:hover .z-img img { transform: scale(1.03); }
+.z-text { flex: 1; padding: 20px; }
+.z-num { font-family: var(--font-serif); font-size: 48px; color: #e0e0e0; font-weight: bold; line-height: 1; display: block; margin-bottom: 16px; }
+.z-text h3 { font-family: var(--font-serif); font-size: 28px; margin-bottom: 24px; color: var(--color-text-main); }
 
 /* =========================================
-   Contact / Access
+   Products (画像付きリスト)
 ========================================= */
-.layout-split {
-    display: flex;
-    justify-content: space-between;
-    gap: 80px;
+.product-list-rich { display: flex; flex-direction: column; gap: 60px; }
+.product-item {
+    display: flex; gap: 40px; align-items: flex-start;
+    padding-bottom: 60px; border-bottom: 1px solid #ddd;
+    transition: background-color 0.4s ease;
 }
-
-.section-title-horizontal h2 {
-    font-family: var(--font-serif);
-    font-size: 36px;
-    margin-bottom: 8px;
-}
-
-.section-title-horizontal .en-title {
-    font-size: 14px;
-    color: var(--color-accent);
-    letter-spacing: 0.1em;
-}
-
-.contact-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.company-details {
-    margin: 48px 0;
-}
-
-.company-name {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 16px;
-}
-
-.company-address {
-    color: var(--color-text-light);
-}
-
-.contact-btn {
-    display: inline-block;
-    padding: 20px 48px;
-    background-color: var(--color-text-main);
-    color: var(--color-white);
-    font-size: 14px;
-    letter-spacing: 0.1em;
-    position: relative;
-    overflow: hidden;
-}
-
-.contact-btn .btn-line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background-color: var(--color-accent);
-    transition: width 0.4s var(--ease-out-expo);
-}
-
-.contact-btn:hover .btn-line {
-    width: 100%;
-}
-
-.access-map {
-    flex: 1;
-    min-height: 400px;
-}
-
-.map-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: #eee;
-}
+.product-item:last-child { border-bottom: none; }
+.product-item:hover { background-color: rgba(255,255,255,0.5); }
+.product-img { width: 35%; overflow: hidden; aspect-ratio: 4/3; }
+.product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-out-expo); }
+.product-item:hover .product-img img { transform: scale(1.05); }
+.product-body { width: 65%; display: flex; flex-direction: column; }
+.product-body .product-num { font-family: var(--font-serif); font-size: 24px; color: var(--color-accent); font-weight: 700; margin-bottom: 8px; }
+.product-name { font-size: 24px; font-family: var(--font-serif); margin-bottom: 16px; }
+.product-desc { font-size: 15px; color: var(--color-text-light); }
 
 /* =========================================
-   Footer
+   Contact / Access & Form
 ========================================= */
-.global-footer {
-    background-color: var(--color-text-main);
-    color: #888;
-    text-align: center;
-    padding: 32px 0;
-    font-size: 12px;
-    letter-spacing: 0.05em;
+.page-main { padding-top: 100px; } /* 下層ページ用余白 */
+.section-title-horizontal { margin-bottom: 64px; border-bottom: 1px solid #ddd; padding-bottom: 16px; }
+.section-title-horizontal h2 { font-family: var(--font-serif); font-size: 36px; margin-bottom: 8px; }
+.section-title-horizontal .en-title { font-size: 14px; color: var(--color-accent); letter-spacing: 0.1em; }
+
+.layout-split { display: flex; gap: 80px; }
+.contact-info { width: 40%; }
+.contact-form-wrapper { width: 60%; background: var(--color-white); padding: 48px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+
+.company-details { margin-bottom: 40px; }
+.company-name { font-size: 22px; font-weight: 700; margin-bottom: 16px; font-family: var(--font-serif); }
+.company-address { color: var(--color-text-light); line-height: 2; }
+.access-map { width: 100%; height: 350px; }
+.map-placeholder { width: 100%; height: 100%; background-color: #eee; }
+
+/* フォームのスタイリング（ミニマルで美しい） */
+.form-lead { margin-bottom: 32px; font-size: 14px; }
+.form-group { margin-bottom: 32px; }
+.form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-main); }
+.req { background: var(--color-accent); color: var(--color-white); font-size: 10px; padding: 2px 6px; margin-left: 8px; vertical-align: middle; }
+.form-control {
+    width: 100%; border: none; border-bottom: 1px solid #ccc;
+    background: transparent; padding: 12px 0; font-size: 15px;
+    font-family: inherit; transition: border-color 0.3s;
 }
+.form-control:focus { outline: none; border-bottom-color: var(--color-accent); }
+textarea.form-control { resize: vertical; }
+
+.submit-btn {
+    display: inline-block; padding: 20px 48px; background-color: var(--color-text-main);
+    color: var(--color-white); font-size: 14px; letter-spacing: 0.1em;
+    border: none; cursor: pointer; position: relative; overflow: hidden; width: 100%; font-family: inherit;
+}
+.submit-btn .btn-line {
+    position: absolute; bottom: 0; left: 0; width: 0; height: 3px;
+    background-color: var(--color-accent); transition: width 0.4s var(--ease-out-expo);
+}
+.submit-btn:hover .btn-line { width: 100%; }
 
 /* =========================================
-   JS Animation Classes
+   Footer & Utils
 ========================================= */
-.js-fade {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
-}
+.global-footer { background-color: var(--color-text-main); color: #888; text-align: center; padding: 40px 0; font-size: 12px; letter-spacing: 0.05em; }
 
-.js-fade.is-active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
+.js-fade { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+.js-fade.is-active { opacity: 1; transform: translateY(0); }
 .delay-1 { transition-delay: 0.2s; }
 .delay-2 { transition-delay: 0.4s; }
 
 /* Responsive (簡易対応) */
+@media screen and (max-width: 992px) {
+    .content-padding-left { padding-left: 80px; }
+    .layout-split { flex-direction: column; }
+    .contact-info, .contact-form-wrapper { width: 100%; }
+    .z-row, .z-row.reverse { flex-direction: column; }
+}
 @media screen and (max-width: 768px) {
-    .layout-overlap .about-content {
-        flex-direction: column;
-        padding-left: 0;
-        margin-top: 80px;
-    }
-    .about-image-wrapper {
-        position: relative;
-        width: 100%;
-        left: 0;
-        top: 0;
-        height: 300px;
-    }
-    .about-text-box {
-        width: 90%;
-        margin-top: -50px;
-        padding: 32px;
-    }
-    .product-list {
-        padding-left: 0;
-        margin-top: 80px;
-    }
-    .layout-split {
-        flex-direction: column;
-    }
-    .hero-title {
-        font-size: 32px;
-    }
-    .global-nav {
-        display: none; /* スマホ用はハンバーガーメニューの実装を推奨 */
-    }
+    .section-title-vertical { position: static; writing-mode: horizontal-tb; margin-bottom: 32px; }
+    .section-title-vertical .en-title { writing-mode: horizontal-tb; margin-top: 8px; }
+    .content-padding-left { padding-left: 0; }
+    .layout-overlap .about-content { flex-direction: column; padding-left: 0; }
+    .about-image-wrapper { position: relative; width: 100%; left: 0; top: 0; height: 300px; }
+    .about-text-box { width: 90%; margin-top: -50px; padding: 32px; }
+    .product-item { flex-direction: column; gap: 24px; }
+    .product-img, .product-body { width: 100%; }
+    .global-nav { display: none; }
 }
