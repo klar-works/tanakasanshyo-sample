@@ -1,0 +1,488 @@
+/* =========================================
+   Reset & Variables
+========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-bg: #FAFAFA;
+    --color-bg-alt: #F0F2F5;
+    --color-text-main: #222222;
+    --color-text-light: #666666;
+    --color-accent: #0056b3; /* B2B向けの知的で落ち着いたブルー */
+    --color-white: #ffffff;
+    
+    --font-sans: 'Noto Sans JP', sans-serif;
+    --font-serif: 'Shippori Mincho', serif;
+    
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text-main);
+    background-color: var(--color-bg);
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================
+   News Ticker
+========================================= */
+.news-ticker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-text-main);
+    color: var(--color-white);
+    font-size: 12px;
+    z-index: 1000;
+    padding: 8px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.news-content {
+    display: flex;
+    gap: 16px;
+    letter-spacing: 0.05em;
+}
+
+.news-date {
+    color: #999;
+}
+
+/* =========================================
+   Header
+========================================= */
+.global-header {
+    position: fixed;
+    top: 34px; /* News Tickerの高さ分下げる */
+    left: 0;
+    width: 100%;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+    mix-blend-mode: difference; /* 背景色に応じて文字色が反転するモダンな手法 */
+    color: var(--color-white);
+}
+
+.logo {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.global-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+}
+
+.global-nav a {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    position: relative;
+}
+
+.global-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-white);
+    transition: width 0.3s ease;
+}
+
+.global-nav a:hover::after {
+    width: 100%;
+}
+
+/* =========================================
+   Hero Section
+========================================= */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 10%;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* 暗めのオーバーレイで文字を読ませる */
+    z-index: -1;
+}
+
+.hero-content {
+    color: var(--color-white);
+    z-index: 1;
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-size: 5vw;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    font-weight: 300;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-white);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    writing-mode: vertical-rl;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+    40% { transform: translateY(-10px) translateX(-50%); }
+    60% { transform: translateY(-5px) translateX(-50%); }
+}
+
+/* =========================================
+   Section Common & Vertical Typo
+========================================= */
+.section-container {
+    padding: 160px 0;
+    width: 100%;
+}
+
+.bg-gray {
+    background-color: var(--color-bg-alt);
+}
+
+.section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+}
+
+.section-title-vertical {
+    position: absolute;
+    top: -40px;
+    left: 40px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+
+.section-title-vertical h2 {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    color: var(--color-text-main);
+    letter-spacing: 0.2em;
+}
+
+.section-title-vertical .en-title {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+    margin-right: 16px;
+    margin-top: 24px;
+}
+
+/* =========================================
+   About Layout (Overlap)
+========================================= */
+.layout-overlap .about-content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    min-height: 600px;
+    padding-left: 100px; /* 縦書きタイトルのスペース */
+}
+
+.about-image-wrapper {
+    width: 60%;
+    height: 500px;
+    position: absolute;
+    left: 120px;
+    top: 50px;
+    overflow: hidden;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 1.5s var(--ease-out-expo);
+}
+
+.about-image-wrapper:hover .placeholder-image {
+    transform: scale(1.05);
+}
+
+.about-text-box {
+    width: 50%;
+    background: var(--color-white);
+    padding: 64px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.about-text-box h3 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    line-height: 1.5;
+    margin-bottom: 32px;
+}
+
+.about-text-box p {
+    color: var(--color-text-light);
+    font-size: 15px;
+}
+
+/* =========================================
+   Products (List, No Cards)
+========================================= */
+.product-list {
+    margin-top: 64px;
+    padding-left: 120px;
+}
+
+.product-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 40px 0;
+    border-bottom: 1px solid #ddd;
+    transition: all 0.4s ease;
+    group: hover;
+}
+
+.product-row:first-child {
+    border-top: 1px solid #ddd;
+}
+
+.product-row:hover {
+    padding-left: 24px;
+    background-color: rgba(255,255,255,0.4);
+}
+
+.product-num {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: var(--color-accent);
+    width: 80px;
+    font-weight: 700;
+}
+
+.product-info {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.product-name {
+    font-size: 22px;
+    font-family: var(--font-serif);
+    margin-bottom: 16px;
+    color: var(--color-text-main);
+}
+
+.product-desc {
+    font-size: 15px;
+    color: var(--color-text-light);
+}
+
+.product-arrow {
+    font-size: 24px;
+    color: #ccc;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.product-row:hover .product-arrow {
+    color: var(--color-accent);
+    transform: translateX(10px);
+}
+
+/* =========================================
+   Contact / Access
+========================================= */
+.layout-split {
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+}
+
+.section-title-horizontal h2 {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.section-title-horizontal .en-title {
+    font-size: 14px;
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+}
+
+.contact-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.company-details {
+    margin: 48px 0;
+}
+
+.company-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.company-address {
+    color: var(--color-text-light);
+}
+
+.contact-btn {
+    display: inline-block;
+    padding: 20px 48px;
+    background-color: var(--color-text-main);
+    color: var(--color-white);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-btn .btn-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--color-accent);
+    transition: width 0.4s var(--ease-out-expo);
+}
+
+.contact-btn:hover .btn-line {
+    width: 100%;
+}
+
+.access-map {
+    flex: 1;
+    min-height: 400px;
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+}
+
+/* =========================================
+   Footer
+========================================= */
+.global-footer {
+    background-color: var(--color-text-main);
+    color: #888;
+    text-align: center;
+    padding: 32px 0;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+}
+
+/* =========================================
+   JS Animation Classes
+========================================= */
+.js-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+}
+
+.js-fade.is-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+
+/* Responsive (簡易対応) */
+@media screen and (max-width: 768px) {
+    .layout-overlap .about-content {
+        flex-direction: column;
+        padding-left: 0;
+        margin-top: 80px;
+    }
+    .about-image-wrapper {
+        position: relative;
+        width: 100%;
+        left: 0;
+        top: 0;
+        height: 300px;
+    }
+    .about-text-box {
+        width: 90%;
+        margin-top: -50px;
+        padding: 32px;
+    }
+    .product-list {
+        padding-left: 0;
+        margin-top: 80px;
+    }
+    .layout-split {
+        flex-direction: column;
+    }
+    .hero-title {
+        font-size: 32px;
+    }
+    .global-nav {
+        display: none; /* スマホ用はハンバーガーメニューの実装を推奨 */
+    }
+}
