@@ -8,7 +8,7 @@
     --color-bg-alt: #F0F2F5;
     --color-text-main: #222222;
     --color-text-light: #666666;
-    --color-accent: #004d80; /* やや深みのある洗練されたブルーに変更 */
+    --color-accent: #004d80;
     --color-white: #ffffff;
     --font-sans: 'Noto Sans JP', sans-serif;
     --font-serif: 'Shippori Mincho', serif;
@@ -44,12 +44,7 @@ img { max-width: 100%; height: auto; display: block; }
     align-items: center; z-index: 999; color: var(--color-white);
     transition: background-color 0.3s ease;
 }
-/* 下層ページ用ヘッダー */
-.solid-header {
-    background-color: var(--color-text-main);
-    top: 34px;
-}
-
+.solid-header { background-color: var(--color-text-main); top: 34px; }
 .logo { font-family: var(--font-serif); font-size: 20px; font-weight: 700; letter-spacing: 0.1em; }
 .global-nav ul { list-style: none; display: flex; gap: 32px; }
 .global-nav a { font-size: 14px; font-weight: 500; letter-spacing: 0.1em; position: relative; }
@@ -72,10 +67,10 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .hero-bg::after {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); z-index: -1; /* 暗めのオーバーレイ */
+    background: rgba(0, 0, 0, 0.5); z-index: -1;
 }
 .hero-content { color: var(--color-white); z-index: 1; }
-.hero-title { font-family: var(--font-serif); font-size: 4.5vw; line-height: 1.3; margin-bottom: 24px; display: flex; flex-direction: column; }
+.hero-title { font-family: var(--font-serif); font-size: 4vw; line-height: 1.3; margin-bottom: 24px; display: flex; flex-direction: column; }
 .hero-subtitle { font-size: 16px; letter-spacing: 0.2em; font-weight: 300; }
 
 .scroll-indicator {
@@ -92,121 +87,124 @@ img { max-width: 100%; height: auto; display: block; }
 /* =========================================
    Section Common & Vertical Typo
 ========================================= */
-.section-container { padding: 140px 0; width: 100%; }
+.section-container { padding: 120px 0; width: 100%; }
 .bg-gray { background-color: var(--color-bg-alt); }
 .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; }
 
-/* 縦書きの修正版（<br>をなくし、letter-spacingで調整） */
+/* 縦書きタイトルの重なり解消 */
 .section-title-vertical {
-    position: absolute; top: -40px; left: 40px;
-    writing-mode: vertical-rl; text-orientation: upright; /* 文字を正立させる */
+    position: absolute; top: 0; left: 40px; /* 位置を調整 */
+    writing-mode: vertical-rl; text-orientation: upright;
 }
 .section-title-vertical h2 {
     font-family: var(--font-serif); font-size: 40px; color: var(--color-text-main);
-    letter-spacing: 0.3em; /* 文字間隔を広げる */
+    letter-spacing: 0.2em; line-height: 1; /* 重なり防止 */
 }
 .section-title-vertical .en-title {
     font-family: var(--font-sans); font-size: 14px; color: var(--color-accent);
     letter-spacing: 0.1em; margin-right: 16px; margin-top: 24px;
-    writing-mode: vertical-rl; text-orientation: mixed; /* 英語は横向きに */
+    writing-mode: vertical-rl; text-orientation: mixed;
 }
 
-/* 縦書きタイトルとコンテンツが被らないようにするための余白 */
-.content-padding-left { padding-left: 160px; }
+/* コンテンツ全体を右にずらして縦書きタイトルとの重なりを防ぐ */
+.content-padding-left { padding-left: 120px; }
 
 /* =========================================
    About / Overlap Layout
 ========================================= */
 .layout-overlap .about-content {
     display: flex; justify-content: flex-end; align-items: center;
-    position: relative; min-height: 600px; padding-left: 100px;
+    position: relative; min-height: 500px; /* 高さを調整 */
 }
-.about-image-wrapper { width: 60%; height: 500px; position: absolute; left: 80px; top: 50px; overflow: hidden; }
+.about-image-wrapper { width: 55%; height: 400px; position: absolute; left: 0; top: 50px; overflow: hidden; }
 .placeholder-image { width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 1.5s var(--ease-out-expo); }
 .about-image-wrapper:hover .placeholder-image { transform: scale(1.05); }
 .about-text-box {
-    width: 55%; background: var(--color-white); padding: 64px;
-    position: relative; z-index: 2; box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+    width: 50%; background: var(--color-white); padding: 48px;
+    position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
-.about-text-box h3 { font-family: var(--font-serif); font-size: 28px; line-height: 1.5; margin-bottom: 32px; }
+.about-text-box h3 { font-family: var(--font-serif); font-size: 24px; line-height: 1.5; margin-bottom: 24px; }
+.about-text-box p { font-size: 15px; }
 
-/* 組織概要ページのメッセージ */
-.company-philosophy { margin-bottom: 80px; }
-.philosophy-title { font-family: var(--font-serif); font-size: 32px; line-height: 1.5; margin-bottom: 24px; color: var(--color-accent); }
-.philosophy-text { font-size: 16px; color: var(--color-text-main); }
+/* =========================================
+   About Page (Philosophy & Profile)
+========================================= */
+.company-philosophy { margin-bottom: 60px; }
+.philosophy-title { font-family: var(--font-serif); font-size: 28px; line-height: 1.5; margin-bottom: 24px; color: var(--color-accent); }
+.philosophy-text { font-size: 16px; color: var(--color-text-main); line-height: 1.8; }
 
-/* 会社概要テーブル */
-.company-profile { width: 100%; max-width: 900px; }
-.profile-row { display: flex; border-bottom: 1px solid #ddd; padding: 24px 0; }
+.company-profile { width: 100%; max-width: 800px; }
+.profile-row { display: flex; border-bottom: 1px solid #ddd; padding: 20px 0; }
 .profile-row:first-child { border-top: 1px solid #ddd; }
-.profile-dt { width: 25%; font-weight: 500; color: var(--color-accent); font-family: var(--font-serif); font-size: 18px; }
-.profile-dd { width: 75%; color: var(--color-text-main); }
+.profile-dt { width: 25%; font-weight: 500; color: var(--color-accent); font-family: var(--font-serif); font-size: 16px; }
+.profile-dd { width: 75%; color: var(--color-text-main); font-size: 15px; }
 
 /* =========================================
    Z-Layout (トップページ強み)
 ========================================= */
-.z-layout-wrapper { display: flex; flex-direction: column; gap: 100px; margin-top: 40px; }
-.z-row { display: flex; align-items: center; gap: 60px; }
+.z-layout-wrapper { display: flex; flex-direction: column; gap: 80px; }
+.z-row { display: flex; align-items: center; gap: 40px; }
 .z-row.reverse { flex-direction: row-reverse; }
 .z-img { flex: 1; overflow: hidden; }
-.z-img img { width: 100%; height: 400px; object-fit: cover; transition: transform 1s ease; }
+.z-img img { width: 100%; height: 300px; object-fit: cover; transition: transform 1s ease; }
 .z-row:hover .z-img img { transform: scale(1.03); }
 .z-text { flex: 1; padding: 20px; }
-.z-num { font-family: var(--font-serif); font-size: 48px; color: #e0e0e0; font-weight: bold; line-height: 1; display: block; margin-bottom: 16px; }
-.z-text h3 { font-family: var(--font-serif); font-size: 28px; margin-bottom: 24px; color: var(--color-text-main); }
+.z-num { font-family: var(--font-serif); font-size: 40px; color: #e0e0e0; font-weight: bold; line-height: 1; display: block; margin-bottom: 16px; }
+.z-text h3 { font-family: var(--font-serif); font-size: 24px; margin-bottom: 16px; color: var(--color-text-main); }
+.z-text p { font-size: 15px; }
 
 /* =========================================
    Products (画像付きリスト)
 ========================================= */
-.product-list-rich { display: flex; flex-direction: column; gap: 60px; }
+.product-list-rich { display: flex; flex-direction: column; gap: 40px; }
 .product-item {
-    display: flex; gap: 40px; align-items: flex-start;
-    padding-bottom: 60px; border-bottom: 1px solid #ddd;
+    display: flex; gap: 32px; align-items: flex-start;
+    padding-bottom: 40px; border-bottom: 1px solid #ddd;
     transition: background-color 0.4s ease;
 }
 .product-item:last-child { border-bottom: none; }
-.product-item:hover { background-color: rgba(255,255,255,0.5); }
-.product-img { width: 35%; overflow: hidden; aspect-ratio: 4/3; }
+.product-item:hover { background-color: rgba(255,255,255,0.5); padding: 16px; /* ホバー時のレイアウト崩れ防止 */ }
+.product-img { width: 40%; overflow: hidden; aspect-ratio: 16/9; }
 .product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-out-expo); }
 .product-item:hover .product-img img { transform: scale(1.05); }
-.product-body { width: 65%; display: flex; flex-direction: column; }
-.product-body .product-num { font-family: var(--font-serif); font-size: 24px; color: var(--color-accent); font-weight: 700; margin-bottom: 8px; }
-.product-name { font-size: 24px; font-family: var(--font-serif); margin-bottom: 16px; }
-.product-desc { font-size: 15px; color: var(--color-text-light); }
+.product-body { width: 60%; display: flex; flex-direction: column; }
+.product-body .product-num { font-family: var(--font-serif); font-size: 20px; color: var(--color-accent); font-weight: 700; margin-bottom: 8px; }
+.product-name { font-size: 20px; font-family: var(--font-serif); margin-bottom: 12px; }
+.product-desc { font-size: 14px; color: var(--color-text-light); line-height: 1.6; }
 
 /* =========================================
    Contact / Access & Form
 ========================================= */
-.page-main { padding-top: 100px; } /* 下層ページ用余白 */
-.section-title-horizontal { margin-bottom: 64px; border-bottom: 1px solid #ddd; padding-bottom: 16px; }
-.section-title-horizontal h2 { font-family: var(--font-serif); font-size: 36px; margin-bottom: 8px; }
+.page-main { padding-top: 120px; } /* 下層ページ用余白 */
+.section-title-horizontal { margin-bottom: 48px; border-bottom: 1px solid #ddd; padding-bottom: 16px; }
+.section-title-horizontal h2 { font-family: var(--font-serif); font-size: 32px; margin-bottom: 8px; }
 .section-title-horizontal .en-title { font-size: 14px; color: var(--color-accent); letter-spacing: 0.1em; }
 
-.layout-split { display: flex; gap: 80px; }
+.layout-split { display: flex; gap: 40px; }
 .contact-info { width: 40%; }
-.contact-form-wrapper { width: 60%; background: var(--color-white); padding: 48px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+.contact-form-wrapper { width: 60%; background: var(--color-white); padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
 
-.company-details { margin-bottom: 40px; }
-.company-name { font-size: 22px; font-weight: 700; margin-bottom: 16px; font-family: var(--font-serif); }
-.company-address { color: var(--color-text-light); line-height: 2; }
-.access-map { width: 100%; height: 350px; }
+.company-details { margin-bottom: 32px; }
+.company-name { font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: var(--font-serif); }
+.company-address { color: var(--color-text-light); line-height: 1.8; font-size: 15px; }
+.access-map { width: 100%; height: 300px; }
 .map-placeholder { width: 100%; height: 100%; background-color: #eee; }
 
-/* フォームのスタイリング（ミニマルで美しい） */
-.form-lead { margin-bottom: 32px; font-size: 14px; }
-.form-group { margin-bottom: 32px; }
+/* フォームのスタイリング */
+.form-lead { margin-bottom: 24px; font-size: 14px; }
+.form-group { margin-bottom: 24px; }
 .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-main); }
 .req { background: var(--color-accent); color: var(--color-white); font-size: 10px; padding: 2px 6px; margin-left: 8px; vertical-align: middle; }
 .form-control {
-    width: 100%; border: none; border-bottom: 1px solid #ccc;
-    background: transparent; padding: 12px 0; font-size: 15px;
+    width: 100%; border: 1px solid #ccc; /* 枠線を見やすく変更 */
+    background: #fff; padding: 12px; font-size: 15px;
     font-family: inherit; transition: border-color 0.3s;
 }
-.form-control:focus { outline: none; border-bottom-color: var(--color-accent); }
+.form-control:focus { outline: none; border-color: var(--color-accent); }
 textarea.form-control { resize: vertical; }
 
 .submit-btn {
-    display: inline-block; padding: 20px 48px; background-color: var(--color-text-main);
+    display: inline-block; padding: 16px 32px; background-color: var(--color-text-main);
     color: var(--color-white); font-size: 14px; letter-spacing: 0.1em;
     border: none; cursor: pointer; position: relative; overflow: hidden; width: 100%; font-family: inherit;
 }
@@ -217,30 +215,48 @@ textarea.form-control { resize: vertical; }
 .submit-btn:hover .btn-line { width: 100%; }
 
 /* =========================================
-   Footer & Utils
+   共通 Footer
 ========================================= */
-.global-footer { background-color: var(--color-text-main); color: #888; text-align: center; padding: 40px 0; font-size: 12px; letter-spacing: 0.05em; }
+.global-footer {
+    background-color: var(--color-text-main); color: #fff;
+    padding: 60px 0 20px; font-size: 14px;
+}
+.footer-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 40px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 40px;
+}
+.footer-info h4 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 16px; letter-spacing: 0.1em; }
+.footer-info p { color: #ccc; line-height: 1.8; font-size: 13px; }
+.footer-nav ul { list-style: none; display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-nav a { color: #ccc; font-size: 13px; transition: color 0.3s ease; }
+.footer-nav a:hover { color: var(--color-accent); }
+.copyright { text-align: center; color: #888; font-size: 12px; letter-spacing: 0.05em; }
 
-.js-fade { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+/* =========================================
+   Animation & Utils
+========================================= */
+.js-fade { opacity: 0; transform: translateY(20px); transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo); }
 .js-fade.is-active { opacity: 1; transform: translateY(0); }
-.delay-1 { transition-delay: 0.2s; }
-.delay-2 { transition-delay: 0.4s; }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
 
-/* Responsive (簡易対応) */
+/* Responsive */
 @media screen and (max-width: 992px) {
-    .content-padding-left { padding-left: 80px; }
+    .content-padding-left { padding-left: 60px; }
     .layout-split { flex-direction: column; }
     .contact-info, .contact-form-wrapper { width: 100%; }
-    .z-row, .z-row.reverse { flex-direction: column; }
+    .z-row, .z-row.reverse { flex-direction: column; gap: 24px; }
+    .product-item { flex-direction: column; }
+    .product-img, .product-body { width: 100%; }
+    .footer-inner { flex-direction: column; gap: 32px; }
 }
 @media screen and (max-width: 768px) {
-    .section-title-vertical { position: static; writing-mode: horizontal-tb; margin-bottom: 32px; }
+    .section-title-vertical { position: static; writing-mode: horizontal-tb; margin-bottom: 24px; }
     .section-title-vertical .en-title { writing-mode: horizontal-tb; margin-top: 8px; }
     .content-padding-left { padding-left: 0; }
-    .layout-overlap .about-content { flex-direction: column; padding-left: 0; }
-    .about-image-wrapper { position: relative; width: 100%; left: 0; top: 0; height: 300px; }
-    .about-text-box { width: 90%; margin-top: -50px; padding: 32px; }
-    .product-item { flex-direction: column; gap: 24px; }
-    .product-img, .product-body { width: 100%; }
+    .layout-overlap .about-content { flex-direction: column; padding-left: 0; min-height: auto; }
+    .about-image-wrapper { position: relative; width: 100%; height: 250px; }
+    .about-text-box { width: 90%; margin-top: -30px; padding: 24px; }
     .global-nav { display: none; }
 }
