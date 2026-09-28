@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>組織概要 | 田中産商 有限会社</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 概要ページ特有のテーブルスタイル（style.cssに追記しても可） */
+        .company-profile { width: 100%; max-width: 800px; margin: 80px 0 0 120px; }
+        .profile-row { display: flex; border-bottom: 1px solid #ddd; padding: 24px 0; }
+        .profile-row:first-child { border-top: 1px solid #ddd; }
+        .profile-dt { width: 30%; font-weight: 500; color: var(--color-accent); }
+        .profile-dd { width: 70%; color: var(--color-text-main); }
+    </style>
+</head>
+<body>
+    <header class="global-header" style="background-color: var(--color-text-main); top: 0;">
+        <div class="logo">TANAKA SANSHO</div>
+        <nav class="global-nav">
+            <ul>
+                <li><a href="index.html">ホーム</a></li>
+                <li><a href="about.html">組織概要</a></li>
+                <li><a href="products.html">製品情報</a></li>
+                <li><a href="contact.html">アクセス・お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="padding-top: 120px;">
+        <section class="section-container">
+            <div class="section-inner">
+                <div class="section-title-vertical js-fade">
+                    <h2>組<br>織<br>概<br>要</h2>
+                    <span class="en-title">Company Profile</span>
+                </div>
+
+                <div class="company-profile js-fade delay-1">
+                    <div class="profile-row">
+                        <div class="profile-dt">組織名</div>
+                        <div class="profile-dd">田中産商 有限会社</div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-dt">代表者</div>
+                        <div class="profile-dd">田中 聡</div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-dt">設立</div>
+                        <div class="profile-dd">1982年</div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-dt">資本金</div>
+                        <div class="profile-dd">300万円</div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-dt">所在地</div>
+                        <div class="profile-dd">
+                            〒351-0007<br>
+                            埼玉県朝霞市岡3-29-23
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-dt">事業内容</div>
+                        <div class="profile-dd">
+                            ・各種金属材料販売及び加工<br>
+                            ・通信機器用アンテナ、打診棒の企画・製作<br>
+                            ・各種継管、精密加工部品の試作〜量産
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="global-footer">
+        <p>&copy; 2026 TANAKA SANSHO CO., LTD. All Rights Reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
