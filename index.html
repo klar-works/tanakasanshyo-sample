@@ -4,56 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>田中産商 有限会社 | 精密加工・パイプ加工のプロフェッショナル</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           Reset & Variables
+        ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --color-bg: #F8FAFC;
+            --color-bg-alt: #F1F5F9;
+            --color-text-main: #1E293B;
+            --color-text-light: #64748B;
+            --color-accent: #0284C7; /* 知的で信頼感のあるブルー */
+            --color-white: #ffffff;
+            --font-sans: 'Noto Sans JP', sans-serif;
+            --font-serif: 'Shippori Mincho', serif;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text-main);
+            background-color: var(--color-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* =========================================
+           Dynamic Grid Background (JR Style)
+        ========================================= */
+        .bg-animated-grid {
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            z-index: -10;
+            background-image: 
+                linear-gradient(to right, rgba(2, 132, 199, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(2, 132, 199, 0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: panGrid 40s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes panGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        /* =========================================
+           SPA Page Routing
+        ========================================= */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            position: relative; /* 背景装飾の基準点 */
+        }
+        .page-view.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* =========================================
+           Header
+        ========================================= */
+        .global-header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 24px 48px; display: flex; justify-content: space-between;
+            align-items: center; z-index: 999; 
+            background-color: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(8px);
+            color: var(--color-white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .logo { font-family: var(--font-serif); font-size: 20px; font-weight: 700; letter-spacing: 0.1em; }
+        .global-nav ul { list-style: none; display: flex; gap: 32px; }
+        .global-nav a { font-size: 14px; font-weight: 500; letter-spacing: 0.1em; position: relative; }
+        .global-nav a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background-color: var(--color-accent); transition: width 0.3s ease;
+        }
+        .global-nav a:hover::after, .global-nav a.current::after { width: 100%; }
+
+        /* =========================================
+           Hero Section (Home)
+        ========================================= */
+        .hero-section {
+            position: relative; height: 100vh; width: 100%;
+            display: flex; align-items: center; padding-left: 10%; overflow: hidden;
+            margin-top: 70px;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1580983554766-c956973e7215?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover; background-position: center; z-index: -2;
+        }
+        .hero-bg::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.3)); z-index: -1;
+        }
+        .hero-content { color: var(--color-white); z-index: 1; }
+        .hero-title { font-family: var(--font-serif); font-size: 4vw; line-height: 1.4; margin-bottom: 24px; display: flex; flex-direction: column; }
+        .hero-subtitle { font-size: 16px; letter-spacing: 0.2em; font-weight: 300; }
+        .scroll-indicator {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            color: var(--color-white); font-size: 12px; letter-spacing: 0.1em;
+            writing-mode: vertical-rl; animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-10px) translateX(-50%); }
+            60% { transform: translateY(-5px) translateX(-50%); }
+        }
+
+        /* =========================================
+           Section Common & Vertical Title
+        ========================================= */
+        .page-main { padding-top: 140px; min-height: 100vh; } 
+        .section-container { padding: 120px 0; width: 100%; }
+        .bg-gray { background-color: var(--color-bg-alt); }
+        
+        .section-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 40px;
+            position: relative;
+            padding-left: 140px; /* ★ここで縦書きタイトルとコンテンツの被りを完全に防ぐ */
+        }
+
+        .section-title-vertical {
+            position: absolute; top: 0; left: 40px;
+            writing-mode: vertical-rl; text-orientation: upright;
+        }
+        .section-title-vertical h2 {
+            font-family: var(--font-serif); font-size: 44px; color: var(--color-text-main);
+            line-height: 1; margin: 0;
+        }
+        .section-title-vertical .en-title {
+            font-family: var(--font-sans); font-size: 14px; color: var(--color-accent);
+            letter-spacing: 0.1em; margin-right: 16px; margin-top: 24px;
+            writing-mode: vertical-rl; text-orientation: mixed;
+        }
+
+        /* ★下から1文字ずつ現れるアニメーション設定 */
+        .section-title-vertical h2 .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+        }
+        .js-fade.is-active h2 .char {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           Overlap Layout (展望) - 被り解消版
+        ========================================= */
+        .layout-overlap {
+            display: flex;
+            align-items: center;
+            padding: 40px 0;
+        }
+        .about-image-wrapper {
+            width: 48%; height: 450px; overflow: hidden; z-index: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .placeholder-image { 
+            width: 100%; height: 100%; background-size: cover; background-position: center; 
+            transition: transform 1.5s var(--ease-out-expo); 
+        }
+        .about-image-wrapper:hover .placeholder-image { transform: scale(1.05); }
+        .about-text-box {
+            width: 60%; margin-left: -8%; /* 画像に少しだけ被せる */
+            background: rgba(255, 255, 255, 0.95); padding: 56px; z-index: 2;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--color-accent);
+        }
+        .about-text-box h3 { font-family: var(--font-serif); font-size: 26px; line-height: 1.6; margin-bottom: 24px; }
+
+        /* =========================================
+           Z-Layout (強み)
+        ========================================= */
+        .z-layout-wrapper { display: flex; flex-direction: column; gap: 80px; }
+        .z-row { display: flex; align-items: center; gap: 60px; }
+        .z-row.reverse { flex-direction: row-reverse; }
+        .z-img { flex: 1; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .z-img img { width: 100%; height: 320px; object-fit: cover; transition: transform 1s ease; }
+        .z-row:hover .z-img img { transform: scale(1.03); }
+        .z-text { flex: 1; padding: 20px 0; }
+        .z-num { font-family: var(--font-serif); font-size: 48px; color: #CBD5E1; font-weight: bold; line-height: 1; display: block; margin-bottom: 16px; }
+        .z-text h3 { font-family: var(--font-serif); font-size: 24px; margin-bottom: 16px; color: var(--color-text-main); line-height: 1.4; }
+
+        /* =========================================
+           About Page (組織概要)
+        ========================================= */
+        /* ★右上の会社の外観画像（薄め・グラデーションマスク） */
+        .about-deco-img {
+            position: absolute;
+            top: 0; right: 0;
+            width: 700px; height: 700px;
+            background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            -webkit-mask-image: radial-gradient(circle at 70% 30%, black 10%, transparent 60%);
+            mask-image: radial-gradient(circle at 70% 30%, black 10%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .company-philosophy { margin-bottom: 80px; }
+        .philosophy-title { font-family: var(--font-serif); font-size: 30px; line-height: 1.6; margin-bottom: 24px; color: var(--color-accent); }
+        .philosophy-text { font-size: 16px; color: var(--color-text-main); line-height: 1.8; }
+        .company-profile { width: 100%; max-width: 800px; background: #fff; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .profile-row { display: flex; border-bottom: 1px solid #E2E8F0; padding: 24px 0; }
+        .profile-row:first-child { padding-top: 0; }
+        .profile-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .profile-dt { width: 25%; font-weight: 500; color: var(--color-accent); font-family: var(--font-serif); font-size: 18px; }
+        .profile-dd { width: 75%; color: var(--color-text-main); font-size: 15px; }
+
+        /* =========================================
+           Products Page (製品情報)
+        ========================================= */
+        .product-list-rich { display: flex; flex-direction: column; gap: 48px; }
+        .product-item {
+            display: flex; gap: 40px; align-items: stretch;
+            background: #fff; padding: 32px; box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-item:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .product-img { width: 40%; overflow: hidden; }
+        .product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-out-expo); }
+        .product-item:hover .product-img img { transform: scale(1.05); }
+        .product-body { width: 60%; display: flex; flex-direction: column; justify-content: center; }
+        .product-body .product-num { font-family: var(--font-serif); font-size: 24px; color: var(--color-accent); font-weight: 700; margin-bottom: 8px; }
+        .product-name { font-size: 24px; font-family: var(--font-serif); margin-bottom: 16px; }
+        .product-desc { font-size: 15px; color: var(--color-text-light); line-height: 1.7; }
+
+        /* =========================================
+           Contact Page
+        ========================================= */
+        .section-title-horizontal { margin-bottom: 48px; border-bottom: 2px solid #E2E8F0; padding-bottom: 16px; }
+        .section-title-horizontal h2 { font-family: var(--font-serif); font-size: 32px; margin-bottom: 8px; }
+        .section-title-horizontal .en-title { font-size: 14px; color: var(--color-accent); letter-spacing: 0.1em; }
+
+        .layout-split { display: flex; gap: 60px; }
+        .contact-info { width: 45%; }
+        .contact-form-wrapper { width: 55%; background: var(--color-white); padding: 48px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+
+        /* ★マップを上に、情報を下に配置 */
+        .access-map { width: 100%; height: 350px; margin-bottom: 32px; border: 1px solid #E2E8F0; }
+        .map-placeholder { width: 100%; height: 100%; background-color: #eee; }
+        .company-details { padding: 24px; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
+        .company-name { font-size: 22px; font-weight: 700; margin-bottom: 12px; font-family: var(--font-serif); color: var(--color-accent); }
+        .company-address { color: var(--color-text-main); line-height: 1.8; font-size: 15px; }
+
+        /* フォームのスタイリング */
+        .form-lead { margin-bottom: 32px; font-size: 14px; }
+        .form-group { margin-bottom: 24px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--color-text-main); }
+        .req { background: var(--color-accent); color: var(--color-white); font-size: 11px; padding: 2px 8px; margin-left: 8px; border-radius: 2px; vertical-align: middle; }
+        .form-control {
+            width: 100%; border: 1px solid #CBD5E1;
+            background: #F8FAFC; padding: 14px; font-size: 15px;
+            font-family: inherit; transition: all 0.3s;
+        }
+        .form-control:focus { outline: none; border-color: var(--color-accent); background: #fff; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
+        textarea.form-control { resize: vertical; }
+        .submit-btn {
+            display: inline-block; padding: 20px 32px; background-color: var(--color-accent);
+            color: var(--color-white); font-size: 16px; font-weight: 700; letter-spacing: 0.1em;
+            border: none; cursor: pointer; width: 100%; font-family: inherit;
+            transition: background-color 0.3s; margin-top: 16px;
+        }
+        .submit-btn:hover { background-color: #0369A1; }
+
+        /* =========================================
+           共通 Footer
+        ========================================= */
+        .global-footer {
+            background-color: var(--color-text-main); color: #fff;
+            padding: 80px 0 20px; font-size: 14px;
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px;
+        }
+        .footer-info h4 { font-family: var(--font-serif); font-size: 24px; margin-bottom: 16px; letter-spacing: 0.1em; }
+        .footer-info p { color: #94A3B8; line-height: 1.8; font-size: 14px; }
+        .footer-nav ul { list-style: none; display: flex; gap: 32px; flex-wrap: wrap; }
+        .footer-nav a { color: #94A3B8; font-size: 14px; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: var(--color-white); }
+        .copyright { text-align: center; color: #64748B; font-size: 12px; letter-spacing: 0.05em; }
+
+        /* =========================================
+           Animation Utilities
+        ========================================= */
+        .js-fade { opacity: 0; transform: translateY(30px); transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo); }
+        .js-fade.is-active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.15s; }
+        .delay-2 { transition-delay: 0.3s; }
+
+        /* Responsive */
+        @media screen and (max-width: 992px) {
+            .section-inner { padding-left: 80px; }
+            .layout-overlap { flex-direction: column; align-items: flex-start; }
+            .about-image-wrapper { width: 100%; height: 350px; position: static; transform: none; margin-bottom: -50px; }
+            .about-text-box { width: 90%; margin-left: 5%; }
+            .layout-split { flex-direction: column; }
+            .contact-info, .contact-form-wrapper { width: 100%; }
+            .z-row, .z-row.reverse { flex-direction: column; gap: 32px; }
+            .product-item { flex-direction: column; padding: 24px; }
+            .product-img, .product-body { width: 100%; }
+            .product-img { aspect-ratio: 16/9; }
+            .footer-inner { flex-direction: column; gap: 40px; }
+        }
+        @media screen and (max-width: 768px) {
+            .section-title-vertical { position: static; writing-mode: horizontal-tb; margin-bottom: 32px; }
+            .section-title-vertical h2 { font-size: 32px; }
+            .section-title-vertical .en-title { writing-mode: horizontal-tb; margin-top: 8px; }
+            .section-inner { padding-left: 0; padding: 0 24px; }
+            .about-text-box { width: 100%; margin-left: 0; padding: 32px; }
+            .global-nav { display: none; } /* ハンバーガー推奨 */
+        }
+    </style>
 </head>
 <body>
-    <!-- ニュースティッカー -->
-    <div class="news-ticker">
-        <div class="news-content">
-            <span class="news-date">2026.09.28</span>
-            <span class="news-text">コーポレートサイトを全面リニューアルいたしました。</span>
-        </div>
-    </div>
 
-    <!-- ヘッダー -->
+    <!-- JR風の動的グリッド背景（全ページ共通） -->
+    <div class="bg-animated-grid"></div>
+
+    <!-- 共通ヘッダー -->
     <header class="global-header">
         <div class="logo">TANAKA SANSHO</div>
         <nav class="global-nav">
             <ul>
-                <li><a href="index.html">ホーム</a></li>
-                <li><a href="about.html">組織概要</a></li>
-                <li><a href="products.html">製品情報</a></li>
-                <li><a href="contact.html">アクセス・お問い合わせ</a></li>
+                <li><a data-target="home" class="current">ホーム</a></li>
+                <li><a data-target="about">組織概要</a></li>
+                <li><a data-target="products">製品情報</a></li>
+                <li><a data-target="contact">アクセス・お問い合わせ</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <!-- ヒーローセクション -->
+    <!-- ==============================================
+         Page 1: ホーム (トップページ)
+    =============================================== -->
+    <div id="page-home" class="page-view active">
         <section id="hero" class="hero-section">
-            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1580983554766-c956973e7215?auto=format&fit=crop&q=80&w=2000');"></div>
+            <div class="hero-bg"></div>
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="reveal-text">ミクロン単位のこだわりが、</span>
-                    <span class="reveal-text">産業の鼓動を支える。</span>
+                    <span class="reveal-text" style="display:inline-block">ミクロン単位のこだわりが、</span><br>
+                    <span class="reveal-text" style="display:inline-block">産業の鼓動を支える。</span>
                 </h1>
-                <p class="hero-subtitle reveal-text delay-1">真鍮・アルミ・ステンレスパイプ加工から精密部品まで</p>
+                <p class="hero-subtitle reveal-text delay-1" style="display:inline-block">真鍮・アルミ・ステンレスパイプ加工から精密部品まで</p>
             </div>
             <div class="scroll-indicator">Scroll</div>
         </section>
 
         <!-- 展望セクション -->
-        <section class="section-container bg-gray">
-            <div class="section-inner layout-overlap">
+        <section class="section-container">
+            <div class="section-inner">
                 <div class="section-title-vertical js-fade">
-                    <h2>展望</h2>
+                    <h2 class="stagger-text">展望</h2>
                     <span class="en-title">Vision</span>
                 </div>
-                
-                <div class="about-content">
+                <div class="layout-overlap">
                     <div class="about-image-wrapper js-fade delay-1">
                         <div class="placeholder-image" style="background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000');"></div>
                     </div>
@@ -68,54 +389,236 @@
             </div>
         </section>
 
-        <!-- 強みセクション (Z型レイアウト) -->
-        <section class="section-container">
-            <div class="section-inner content-padding-left">
+        <!-- 強みセクション -->
+        <section class="section-container bg-gray">
+            <div class="section-inner">
                 <div class="section-title-vertical js-fade">
-                    <h2>強み</h2>
+                    <h2 class="stagger-text">強み</h2>
                     <span class="en-title">Our Strengths</span>
                 </div>
-
                 <div class="z-layout-wrapper">
-                    <!-- 強み 1 -->
                     <div class="z-row js-fade">
-                        <div class="z-img">
-                            <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800" alt="設計から納品まで">
-                        </div>
+                        <div class="z-img"><img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800" alt="ワンストップ体制"></div>
                         <div class="z-text">
                             <span class="z-num">01</span>
                             <h3>設計から納品までの<br>ワンストップ体制</h3>
-                            <p>材料の調達から、切削、研磨、表面処理、そして最終的な組み立てに至るまで、自社および強固な協力工場ネットワークを活用した一貫生産体制を構築。リードタイムの短縮とコスト削減を実現します。</p>
+                            <p>材料の調達から、切削、研磨、表面処理、組み立てに至るまで一貫生産体制を構築。リードタイムの短縮とコスト削減を実現します。</p>
                         </div>
                     </div>
-
-                    <!-- 強み 2 (左右反転) -->
                     <div class="z-row reverse js-fade">
-                        <div class="z-img">
-                            <img src="https://images.unsplash.com/photo-1610419139591-381fbb0cc501?auto=format&fit=crop&q=80&w=800" alt="職人技と最新設備">
-                        </div>
+                        <div class="z-img"><img src="https://images.unsplash.com/photo-1610419139591-381fbb0cc501?auto=format&fit=crop&q=80&w=800" alt="職人技と最新設備"></div>
                         <div class="z-text">
                             <span class="z-num">02</span>
                             <h3>職人の感覚と<br>最新設備のハイブリッド</h3>
-                            <p>創業以来培ってきた熟練工の手の感覚と、ミクロン単位の精度を叩き出す最新のNC工作機械。これらを融合させることで、他社では難しいとされる複雑な形状や難削材の加工も可能にしています。</p>
+                            <p>熟練工の手の感覚と、ミクロン単位の精度を叩き出す最新のNC工作機械を融合。複雑な形状や難削材の加工も可能にしています。</p>
                         </div>
                     </div>
-
-                    <!-- 強み 3 -->
                     <div class="z-row js-fade">
-                        <div class="z-img">
-                            <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&q=80&w=800" alt="徹底した品質管理">
-                        </div>
+                        <div class="z-img"><img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&q=80&w=800" alt="品質管理"></div>
                         <div class="z-text">
                             <span class="z-num">03</span>
                             <h3>妥協を許さない<br>徹底した品質管理</h3>
-                            <p>「品質は工程で作り込む」をモットーに、各プロセスでの厳密な検査を実施。医療機器や通信インフラなど、高い信頼性が求められる分野の部品においても、常に安定した高品質をお約束します。</p>
+                            <p>「品質は工程で作り込む」をモットーに厳密な検査を実施。高い信頼性が求められる分野においても安定した高品質をお約束します。</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
+    </div>
+
+    <!-- ==============================================
+         Page 2: 組織概要
+    =============================================== -->
+    <div id="page-about" class="page-view">
+        <!-- 会社の外観を模した大きな背景装飾（右上） -->
+        <div class="about-deco-img"></div>
+        <main class="page-main">
+            <section class="section-container">
+                <div class="section-inner">
+                    <div class="section-title-vertical js-fade">
+                        <h2 class="stagger-text">組織概要</h2>
+                        <span class="en-title">Company Profile</span>
+                    </div>
+
+                    <div class="company-philosophy js-fade delay-1">
+                        <h3 class="philosophy-title">技術力に裏打ちされた信頼で、<br>社会のニーズに応え続ける。</h3>
+                        <p class="philosophy-text">
+                            多岐にわたる製品やサービスを提供し、さまざまな業界のニーズに対応しています。<br>
+                            製品は高品質であり、技術力に裏打ちされた信頼性が特徴です。<br><br>
+                            製造業からサービス業まで幅広い分野でのソリューションを提供し、顧客満足度の向上を目指しています。<br>
+                            環境に配慮した製品開発や、効率的な生産プロセスの導入にも力を入れています。
+                        </p>
+                    </div>
+
+                    <div class="company-profile js-fade delay-2">
+                        <div class="profile-row">
+                            <div class="profile-dt">組織名</div>
+                            <div class="profile-dd">田中産商 有限会社</div>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-dt">代表者</div>
+                            <div class="profile-dd">田中 聡</div>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-dt">設立</div>
+                            <div class="profile-dd">1982年</div>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-dt">資本金</div>
+                            <div class="profile-dd">300万円</div>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-dt">所在地</div>
+                            <div class="profile-dd">〒351-0007<br>埼玉県朝霞市岡3-29-23</div>
+                        </div>
+                        <div class="profile-row">
+                            <div class="profile-dt">事業内容</div>
+                            <div class="profile-dd">
+                                ・各種金属材料販売及び加工<br>
+                                ・通信機器用アンテナ、打診棒の企画・製作<br>
+                                ・各種継管、精密加工部品の試作〜量産
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==============================================
+         Page 3: 製品情報
+    =============================================== -->
+    <div id="page-products" class="page-view">
+        <main class="page-main">
+            <section class="section-container bg-gray">
+                <div class="section-inner">
+                    <div class="section-title-vertical js-fade">
+                        <h2 class="stagger-text">製品情報</h2>
+                        <span class="en-title">Products</span>
+                    </div>
+
+                    <div class="product-list-rich js-fade delay-1">
+                        <div class="product-item">
+                            <div class="product-img">
+                                <img src="https://images.unsplash.com/photo-1590496793907-471d87120286?auto=format&fit=crop&q=80&w=800" alt="アンテナ加工">
+                            </div>
+                            <div class="product-body">
+                                <div class="product-num">01</div>
+                                <h4 class="product-name">各種アンテナ・ポール・打診棒</h4>
+                                <p class="product-desc">
+                                    パイプ材料から加工製作まで一貫して対応いたします。<br>
+                                    <strong>ステンレス:</strong> 主力サイズ Φ30くらいまで（肉厚0.24 / 0.3 / 0.5 / 1.0 / 1.2など）<br>
+                                    <strong>真鍮・アルミ:</strong> 細いものから太いものまで、丸、四角、異形管（溝入、六角）など多様な形状に対応可能です。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-img">
+                                <img src="https://images.unsplash.com/photo-1565439387994-3532c54eeac8?auto=format&fit=crop&q=80&w=800" alt="金属精密加工">
+                            </div>
+                            <div class="product-body">
+                                <div class="product-num">02</div>
+                                <h4 class="product-name">各種金属精密加工</h4>
+                                <p class="product-desc">
+                                    小さいものからΦ100くらいまでのステンレス、アルミ、真鍮、チタンを材料とした加工製作を承ります。<br>
+                                    <strong>保有機械:</strong> NC旋盤 / 小型フライス / 汎用旋盤 / ボール盤 などを用いて、高精度な仕上がりを実現します。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-img">
+                                <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=800" alt="美容機器用ヘッド">
+                            </div>
+                            <div class="product-body">
+                                <div class="product-num">03</div>
+                                <h4 class="product-name">超音波美容器用ヘッド</h4>
+                                <p class="product-desc">
+                                    ステンレス、アルミ、真鍮、チタン、各種樹脂に至るまで幅広い材質で製作加工いたします。さらに、各種材料への研磨、メッキ、コーティング処理も一括して承ることが可能です。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-img">
+                                <img src="https://images.unsplash.com/photo-1517420879255-ae4657367e91?auto=format&fit=crop&q=80&w=800" alt="振動発電素子">
+                            </div>
+                            <div class="product-body">
+                                <div class="product-num">04</div>
+                                <h4 class="product-name">振動発電素子</h4>
+                                <p class="product-desc">
+                                    超音波振動素子のノウハウを活かし、振動を与えると発電する素子の販売を行っております。<br>
+                                    <strong>起電力(例):</strong> 電圧 15〜20(V)[最大40(V)] / 電流 0.5〜1(mA)[瞬間200(mA)] / 電力 7〜10(mW)[瞬間2(W)]<br>
+                                    <strong>寸法(例):</strong> 75 × 20 × 0.43t
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==============================================
+         Page 4: アクセス・お問い合わせ
+    =============================================== -->
+    <div id="page-contact" class="page-view">
+        <main class="page-main">
+            <section class="section-container">
+                <div class="section-inner">
+                    <div class="section-title-horizontal js-fade">
+                        <h2>アクセス・お問い合わせ</h2>
+                        <span class="en-title">Access & Contact</span>
+                    </div>
+
+                    <div class="layout-split js-fade delay-1">
+                        <!-- マップを上に、概要を下に配置変更 -->
+                        <div class="contact-info">
+                            <div class="access-map">
+                                <div class="map-placeholder">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3235.158652150172!2d139.5851412!3d35.8115682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018ea1b0b5cc4ab%3A0x6b44558509c15b13!2z44CSMzUxLTAwMDcg5Z-8546J55yM5pyd6Z6e5biC5bKh77yT5LiB55uu77yS77yZ4oiS77yS77yT!5e0!3m2!1sja!2sjp!4v1690000000000!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+                            </div>
+                            <div class="company-details">
+                                <p class="company-name">田中産商 有限会社</p>
+                                <p class="company-address">
+                                    〒351-0007<br>埼玉県朝霞市岡3-29-23<br><br>
+                                    <strong>TEL:</strong> 048-461-0130<br>
+                                    <strong>FAX:</strong> 048-461-0126
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- フォームエリア -->
+                        <div class="contact-form-wrapper">
+                            <p class="form-lead">製品の加工依頼や試作のご相談など、お気軽にお問い合わせください。</p>
+                            <form action="#" class="modern-form" onsubmit="event.preventDefault();">
+                                <div class="form-group">
+                                    <label for="company">貴社名</label>
+                                    <input type="text" id="company" class="form-control" placeholder="例：株式会社〇〇">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">お名前 <span class="req">必須</span></label>
+                                    <input type="text" id="name" class="form-control" required placeholder="例：田中 太郎">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">メールアドレス <span class="req">必須</span></label>
+                                    <input type="email" id="email" class="form-control" required placeholder="例：info@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">電話番号</label>
+                                    <input type="tel" id="phone" class="form-control" placeholder="例：03-1234-5678">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">お問い合わせ内容 <span class="req">必須</span></label>
+                                    <textarea id="message" class="form-control" rows="5" required placeholder="ご質問やご依頼内容をご記入ください"></textarea>
+                                </div>
+                                <button type="submit" class="submit-btn">送信する</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <!-- 共通フッター -->
     <footer class="global-footer">
@@ -127,16 +630,116 @@
             </div>
             <div class="footer-nav">
                 <ul>
-                    <li><a href="index.html">ホーム</a></li>
-                    <li><a href="about.html">組織概要</a></li>
-                    <li><a href="products.html">製品情報</a></li>
-                    <li><a href="contact.html">アクセス・お問い合わせ</a></li>
+                    <li><a data-target="home">ホーム</a></li>
+                    <li><a data-target="about">組織概要</a></li>
+                    <li><a data-target="products">製品情報</a></li>
+                    <li><a data-target="contact">アクセス・お問い合わせ</a></li>
                 </ul>
             </div>
         </div>
         <p class="copyright">&copy; 2026 TANAKA SANSHO CO., LTD. All Rights Reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- スクリプト -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. 縦書きテキストを下から1文字ずつ表示させる処理
+            function setupStaggeredText() {
+                const staggerElements = document.querySelectorAll('.stagger-text');
+                staggerElements.forEach(el => {
+                    if (el.classList.contains('processed')) return;
+                    const text = el.textContent.trim();
+                    el.textContent = '';
+                    const chars = text.split('');
+                    
+                    chars.forEach((char, index) => {
+                        if(char === ' ' || char === '\n') return;
+                        const span = document.createElement('span');
+                        span.textContent = char;
+                        span.className = 'char';
+                        // 下の文字（後ろのインデックス）ほど早く、上の文字ほど遅くディレイを設定
+                        const reverseIndex = chars.length - 1 - index;
+                        span.style.transitionDelay = `${reverseIndex * 0.15 + 0.1}s`;
+                        el.appendChild(span);
+                    });
+                    el.classList.add('processed');
+                });
+            }
+
+            // 2. スクロール監視 (Intersection Observer)
+            let scrollObserver;
+            function initScrollReveal() {
+                if(scrollObserver) scrollObserver.disconnect();
+                
+                // 現在のアクティブなページ内の要素のみ監視対象にする
+                const activePage = document.querySelector('.page-view.active');
+                if(!activePage) return;
+
+                const fadeElements = activePage.querySelectorAll('.js-fade');
+                fadeElements.forEach(el => el.classList.remove('is-active')); // 初期化
+
+                scrollObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0 });
+
+                setTimeout(() => {
+                    fadeElements.forEach(el => scrollObserver.observe(el));
+                }, 100);
+            }
+
+            // 3. SPA ルーティング (ページ切り替え)
+            function navigateTo(pageId) {
+                // ページ非表示・表示の切り替え
+                document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+                document.getElementById('page-' + pageId).classList.add('active');
+                
+                // ナビゲーションのカレント表示更新
+                document.querySelectorAll('.global-nav a, .footer-nav a').forEach(a => {
+                    a.classList.remove('current');
+                    if(a.getAttribute('data-target') === pageId) {
+                        a.classList.add('current');
+                    }
+                });
+
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // ページ移動後にアニメーションを再セット
+                initScrollReveal();
+            }
+
+            // ナビゲーションのクリックイベント
+            document.querySelectorAll('a[data-target]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateTo(e.target.getAttribute('data-target'));
+                });
+            });
+
+            // 4. 初回ロード時の初期化
+            setupStaggeredText();
+            initScrollReveal();
+
+            // ホーム画面のヒーローテキストのアニメーション
+            setTimeout(() => {
+                const heroReveals = document.querySelectorAll('.hero-content .reveal-text');
+                heroReveals.forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'opacity 1s ease, transform 1s ease';
+                    
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 400 * index);
+                });
+            }, 100);
+        });
+    </script>
 </body>
 </html>
